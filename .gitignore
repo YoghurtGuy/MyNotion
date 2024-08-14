@@ -1,4 +1,4 @@
 .env
-/cover
-/history
+#/cover
+#/history
 /.idea
