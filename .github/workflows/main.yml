@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  # 手动打卡
+  workflow_dispatch:
+  schedule:
+    - cron:  '25,55 * * * *'
+  push:
+    # 运行分支
+    branches:
+      - main
+    paths:
+      - "/"
+
+jobs:
+  check_score:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: 调整时区
+      uses: szenius/set-timezone@v1.0 # 设置执行环境的时区
+      with:
+        timezoneLinux: "Asia/Shanghai"
+    - name: 初始化 Python
+      uses: actions/setup-python@v4.4.0
+      with:
+        python-version: '3.8'
+        cache: 'pip'
+
+    - name: 执行脚本
+      run: |
+        python main.py
+      env:
+        BILI_COOKIE: ${{ secrets.BILI_COOKIE }}
+        NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        BILI_FAV_ID: ${{ env.BILI_FAV_ID }}
+        NOTION_BILI: ${{ env.NOTION_BILI }}
+
+      # git 提交文件
+    - name: Commit files
+      run: |
+        git config --local user.email "leftongyu@gmail.com"
+        git config --local user.name "UPDATE"
+        git diff --exit-code || git add . && git commit -m "`date '+%Y-%m-%d %H:%M:%S'`"  --allow-empty #动态提交信息
+
+      # 推送到github仓库
+    - name: 保存历史记录
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
