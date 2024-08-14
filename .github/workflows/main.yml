@@ -49,7 +49,7 @@ jobs:
         git add ./cover/*
         git config --local user.email "leftongyu@gmail.com"
         git config --local user.name "UPDATE"
-        git diff --exit-code || (git add . && git commit -m "`date '+%Y-%m-%d %H:%M:%S'`")
+        git add . && git commit -m "`date '+%Y-%m-%d %H:%M:%S'`"
 
       # 推送到github仓库
     - name: 保存历史记录
