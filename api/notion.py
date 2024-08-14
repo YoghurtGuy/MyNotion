@@ -16,7 +16,7 @@ def _get_history(name):
 def _set_history(name, history):
     path = "history/%s.txt" % name
     with open(path, "a+") as f:
-        f.write("\n"+history)
+        f.write("\n" + history)
 
 
 class Notion:
@@ -35,14 +35,14 @@ class Notion:
             os.mkdir("cover")
 
     def _download_cover(self, url, bvid):
-        path = './cover/%s.png' % bvid
+        path = '/cover/%s.png' % bvid
         response = self.session.get(url)
         with open(path, 'wb') as f:
             f.write(response.content)
-        return path
+        return "https://github.com/%s/blob/main%s?raw=true" % (os.environ.get("REPOSITORY"), path)
 
     def _invert_bili(self, fav):
-        self._download_cover(fav['cover'], fav['bvid'])
+        cover_url = self._download_cover(fav['cover'], fav['bvid'])
         data = {
             "parent": {
                 "database_id": self.database_id
@@ -53,7 +53,7 @@ class Notion:
                 "封面": {"files": [
                     {
                         "external": {
-                            "url": fav['cover']
+                            "url": cover_url
                         },
                         "name": str(fav["bvid"]),
                         "type": "external"
@@ -61,7 +61,8 @@ class Notion:
                 ]},
 
                 "简介": {"type": "rich_text", "rich_text": [{"type": "text", "text": {"content": fav["intro"], }, }]},
-                "时长": {"type": "rich_text", "rich_text": [{"type": "text", "text": {"content": fav["duration"], }, }]},
+                "时长": {"type": "rich_text",
+                         "rich_text": [{"type": "text", "text": {"content": fav["duration"], }, }]},
                 "UP主": {"url": "https://space.bilibili.com" + str(fav['upper_mid'])},
                 "收藏时间": {"type": "date", "date": {"start": time.strftime("%Y-%m-%d %H:%M:%S",
                                                                              time.localtime(fav["fav_time"]))}},
