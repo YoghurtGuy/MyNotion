@@ -30,16 +30,16 @@ class Notion:
         })
 
         if not os.path.exists("history"):
-            os.mkdir("history")
+            os.mkdir("./history")
         if not os.path.exists("cover"):
-            os.mkdir("cover")
+            os.mkdir("./cover")
 
     def _download_cover(self, url, bvid):
-        path = '/cover/%s.png' % bvid
+        path = './cover/%s.png' % bvid
         response = self.session.get(url)
         with open(path, 'wb') as f:
             f.write(response.content)
-        return "https://github.com/%s/blob/main%s?raw=true" % (os.environ.get("REPOSITORY"), path)
+        return "https://github.com/%s/blob/main%s?raw=true" % (os.environ.get("REPOSITORY"), path[1:])
 
     def _invert_bili(self, fav):
         cover_url = self._download_cover(fav['cover'], fav['bvid'])
