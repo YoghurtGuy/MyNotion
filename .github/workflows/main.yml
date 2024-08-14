@@ -37,8 +37,8 @@ jobs:
       env:
         BILI_COOKIE: ${{ secrets.BILI_COOKIE }}
         NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-        BILI_FAV_ID: ${{ env.BILI_FAV_ID }}
-        NOTION_BILI: ${{ env.NOTION_BILI }}
+        BILI_FAV_ID: ${{ secrets.BILI_FAV_ID }}
+        NOTION_BILI: ${{ secrets.NOTION_BILI }}
         REPOSITORY: ${{ github.repository }}
 
       # git 提交文件
