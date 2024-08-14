@@ -68,6 +68,7 @@ class Bilibili:
                     "play": fav["cnt_info"]["play"],
                     "danmaku": fav["cnt_info"]["danmaku"],
                     "collect": fav["cnt_info"]["collect"],
+                    "fav_time": fav["fav_time"],
                 }
             )
         return fav_info
