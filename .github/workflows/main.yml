@@ -44,14 +44,13 @@ jobs:
       # git 提交文件
     - name: Commit files
       run: |
-        ls
         git config --local user.email "leftongyu@gmail.com"
         git config --local user.name "UPDATE"
         if [ git diff --exit-code ] || [ git diff-files --exit-code ]  ; then
           echo "nothing to commit"
         else
           git add .
-          git commit -m "Update README.md"
+          git commit -m "Update Notion"
           git push
         fi
 

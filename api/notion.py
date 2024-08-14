@@ -34,9 +34,19 @@ class Notion:
         if not os.path.exists("cover"):
             os.mkdir("./cover")
 
+    def _get_with_retry(self,url, max_retries=5):
+        for _ in range(max_retries):
+            try:
+                response = self.session.get(url)
+                response.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xx
+                return response
+            except requests.exceptions.RequestException:
+                time.sleep(10)  # Wait for 10 seconds before next retry
+        raise Exception("Failed to GET from the URL after several retries")
+
     def _download_cover(self, url, bvid):
         path = './cover/%s.png' % bvid
-        response = self.session.get(url)
+        response = self._get_with_retry(url)
         with open(path, 'wb') as f:
             f.write(response.content)
         return "https://github.com/%s/blob/main%s?raw=true" % (os.environ.get("REPOSITORY"), path[1:])
