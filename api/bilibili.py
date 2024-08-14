@@ -16,6 +16,8 @@ class Bilibili:
             cookie_dict = dict(x.split('=') for x in bili_cookie.split('; '))
             for key, value in cookie_dict.items():
                 self.session.cookies.set(key, value)
+        else:
+            print("Please set BILI_COOKIE environment variable.")
 
     def _get_fav_pn(self, media_id, pn):
         params = {"media_id": media_id, "ps": 20, "pn": pn, "platform": "web"}
