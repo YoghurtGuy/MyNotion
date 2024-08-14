@@ -45,8 +45,8 @@ jobs:
     - name: Commit files
       run: |
         ls
-        git add ./history
-        git add ./cover
+        git add ./history/*
+        git add ./cover/*
         git config --local user.email "leftongyu@gmail.com"
         git config --local user.name "UPDATE"
         git diff --exit-code || (git add . && git commit -m "`date '+%Y-%m-%d %H:%M:%S'`")
