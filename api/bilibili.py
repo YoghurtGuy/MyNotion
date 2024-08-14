@@ -41,13 +41,15 @@ class Bilibili:
                     invalid += 1
                     continue
                 self.fav_list.append(media)
-            if not data["has_more"]:
+            if not data["has_more"] or len(self.fav_list) >= 100:
                 break
             pn += 1
+
         print("Get fav list successfully.total:%d.invalid:%d" % (len(self.fav_list), invalid))
 
-    def get_fav_info(self, media_id):
-        self._get_fav(media_id)
+    def get_fav_info(self, media_id_list):
+        for media_id in media_id_list.split(','):
+            self._get_fav(media_id)
         if len(self.fav_list) == 0:
             print("No fav list found.")
             return

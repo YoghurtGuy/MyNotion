@@ -84,10 +84,13 @@ class Notion:
         return self.session.request("POST", "https://api.notion.com/v1/pages", json=data)
 
     def add_bili(self, fav_list):
-        for fav in fav_list:
+        for tid,fav in enumerate(fav_list):
             if fav["bvid"] in _get_history("bili"):
                 continue
             response = self._invert_bili(fav)
             if response.status_code == 200:
                 _set_history("bili", fav["bvid"])
                 print("Add %s successfully." % fav["bvid"])
+            if tid ==100:
+                print("100 items added successfully!!")
+                break
