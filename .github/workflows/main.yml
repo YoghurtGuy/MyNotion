@@ -47,7 +47,13 @@ jobs:
         ls
         git config --local user.email "leftongyu@gmail.com"
         git config --local user.name "UPDATE"
-        (git diff --exit-code || git diff --exit-code ) &&（ git add . && git commit -m "`date '+%Y-%m-%d %H:%M:%S'`"）
+        if [ git diff --exit-code ] || [ git diff-files --exit-code ]  ; then
+          echo "nothing to commit"
+        else
+          git add .
+          git commit -m "Update README.md"
+          git push
+        fi
 
       # 推送到github仓库
     - name: 保存历史记录
